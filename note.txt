@@ -1,0 +1,124 @@
+blog:
+    MongoDB数据库;
+    db: 存储数据;
+    models: 数据库目录文件;
+    schemas: 数据库结构文件;
+    node_modules: 安装包;
+    views/tpl: 模板文件;
+    routes: 路由文件;
+        前端页面的请求:
+            localhost:8086/news/list1.html
+            localhost:8086/static/index.html
+
+        后台也面的请求:
+            localhost:8086/admin/reg.html
+            localhost:8086/admin/login.html
+
+    public: 公共文件
+        images: 图片
+        css: 样式
+        js: js文件
+        static: 生成的文件
+
+    app.js: 项目启动文件; 项目入口文件; application: 应用;
+
+如何得到package.json文件: npm init
+    package.json: 工程简介, 包含当前项目的一些基本信息;
+
+Express Express-static body-parser ejs
+
+--save-dev:
+    npm install
+    node app
+
+require(url):
+    系统模块直接写名称;
+    非系统模块写路径+名称;
+
+静态资源:
+    任何用户访问时看到的结果都一样;
+
+路由划分:
+    admin: 后台 localhost:8086/admin/login.html
+    api: 逻辑: localhost:8086/api/user.js
+    /: 前端
+
+切换到mongodb安装的bin目录下执行:
+    mongod --dbpath=F:/nodejs/blogs/db --port=27018
+
+用户登录:
+
+用户注册:
+    users
+        username: String
+        password: String
+
+tpl/main内放的都是前端的模板文件;
+tpl/admin 放的都是网站后台的模板文件;
+
+登录校验:
+    前端的校验：
+        先做正则匹配 正则匹配通过以后在发送ajax请求;
+            正则表达式: /^(^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$)|(^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])((\d{4})|\d{3}[Xx])$)$/
+
+    后台的校验：
+       拿到前端提交的数据, 再次做正则校验, 校验通过以后再去数据库查询并且进行数据库操作;
+
+关联数据库:
+    MongoDB: 数据库; 跟mysql作用一样，存储数据;
+
+    mysql: slq语句;
+
+    MongoDB: 使用mongoose.js来操作mongodb数据库进行增删改查操作.
+
+    mongoose.js: promise:
+
+    ajax({
+        url: ,
+        type: ,
+    }).then(function(info){
+
+    }).then();
+
+
+保持登录状态:
+    需要cookie;
+
+try{
+    尝试着做某一件事儿;
+}catch(e){//失败的原因
+    如果做不成功怎么办 console.log(e);
+}
+
+
+JSON.parse({}): 把字符串格式的json转成json;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
