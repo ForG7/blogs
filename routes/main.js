@@ -13,8 +13,6 @@ var router = express.Router();
 //localhost:8086/index
 router.get('/index', function (req, res) {
   
-  console.log('aaaa: ' + JSON.stringify(req.usersInfo));
-  
   res.render('main/index.ejs', {usersInfo: req.usersInfo});
   
 });

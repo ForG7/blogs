@@ -22,7 +22,7 @@ var bodyParser = require('body-parser');
 
 var cookies = require('cookies');
 
-var userTable = require('./models/User');
+var UserTable = require('./models/User');
 
 //视图引擎
 app.set('ejs', 'view engine');
@@ -34,7 +34,7 @@ app.engine('html', ejs.renderFile);
 //首页的访问
 /*app.get('/', function (req, res) {
   
-  res.render('index.ejs', {name: 'Jack'});
+  res.render('admin.ejs', {name: 'Jack'});
   
 });*/
 
@@ -51,21 +51,16 @@ app.use(function (req, res, next) {
     try {
       req.usersInfo = JSON.parse(req.cookies.get('userInfo'));
       
-      userTable.findById(req.usersInfo._id).then(function (selectedInfo) {
-        
-        req.usersInfo.isAdmin = Boolean(selectedInfo.isAdmin);
-        
-        console.log('selectedInfo.isAdmin: ' + selectedInfo.isAdmin);
-        
+      UserTable.findById(req.usersInfo._id).then(function (selectedInfo) {
+        console.log('selectedInfo.isAdmin:' + selectedInfo.isAdmin);
+        req.usersInfo.isAdmin = selectedInfo.isAdmin;
         next();
-        
       });
       
     } catch (e) {
-      console.log('eee: '+ e);
       next();
     }
-  }else{
+  } else {
     next();
   }
 });

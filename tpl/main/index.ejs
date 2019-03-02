@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>翡翠 - 15</title>
+<title>前端首页</title>
 <link href="public/css/main.css" rel="stylesheet" type="text/css">
 <link href="public/fontAwesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 <script src="public/js/jquery-1.12.4.min.js"></script>
@@ -94,9 +94,11 @@
                 <div class="rightBox" id="rightBox">
                 <div class="title"><span>用户信息</span></div>
                 <p><span class="colDark"><%=usersInfo.username%></span></p>
-                
-                <p><span class="colDanger">你好，你是管理员，<a href="javascript:;">你可以点击这里进入管理</a></span></p>
-                
+                <%if(usersInfo.isAdmin){%>
+                    <p><span class="colDanger">你好，你是管理员，<a href="/admin/welcome" target="_blank">你可以点击进入后台管理</a></span></p>
+                <%} else {%>
+                    <p><span class="colDanger">你好，欢迎登陆!!!</span></p>
+                <%}%>
                 <p><span class="colDark"><a href="javascript:;" id="logoutBtn">退出</a></span></p>
             </div>
             <%} else{%>

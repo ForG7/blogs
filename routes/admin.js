@@ -9,11 +9,9 @@ var express = require('express');
 
 var router = express.Router();
 
-router.get('/login', function (req, res) {
+router.get('/welcome', function (req, res) {
 
-  res.send('admin - login.html');
-  
-  res.end();
+  res.render('admin/admin.ejs', {});
   
 });
 
