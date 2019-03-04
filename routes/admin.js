@@ -17,7 +17,7 @@ router.get('/userslist', function (req, res) {
   var page = Number(req.query.page) || 1;//当前在哪一页;
   
   userData.count().then(function (count) {
-    var limit = 5;//忽略的条数
+    var limit = 5;//忽略的条数 aaa
     var pages = Math.ceil(count / limit);//总页数
     var a = (page - 1) * limit;
     
@@ -28,7 +28,7 @@ router.get('/userslist', function (req, res) {
       res.render('admin/admin.ejs', {
         Data: data,
         limit: limit,
-        count: count,//数据总条数
+        count: count,//数据总条数 aaa
         pages: pages,
         page: page
       });
