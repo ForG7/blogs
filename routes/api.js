@@ -26,7 +26,7 @@ router.use(function (req, res, next) {
 //注册:
 router.post('/user/register', function (req, res) {
   
-  console.log(req.body);//{username: 'asdsad' , password: '', cpassword: 'sdfsd'};
+  // console.log(req.body);//{username: 'asdsad' , password: '', cpassword: 'sdfsd'};
   
   var username = req.body.username;
   var passwrod = req.body.password;
@@ -56,7 +56,7 @@ router.post('/user/register', function (req, res) {
   UserTable.findOne({//从表格里面进行查询:
     username: username//查询的内容
   }).then(function (info) {//查询之后的操作:
-    console.log('info: ' + info);//info代表查询的信息:
+    // console.log('info: ' + info);//info代表查询的信息:
     
     if (info) {//如果info不为null;
       responsetext.code = 4;
@@ -72,7 +72,7 @@ router.post('/user/register', function (req, res) {
     
     return user.save();//提交当前的信息到表格中;
   }).then(function (newInfo) {//提交完成之后的操作:
-    console.log('newInfo: ' + newInfo);//newInfo是提交完成之后的信息:
+    // console.log('newInfo: ' + newInfo);//newInfo是提交完成之后的信息:
     responsetext.code = 5;
     responsetext.msg = '注册成功!';
     res.send(responsetext);

@@ -52,7 +52,7 @@ app.use(function (req, res, next) {
       req.usersInfo = JSON.parse(req.cookies.get('userInfo'));
       
       UserTable.findById(req.usersInfo._id).then(function (selectedInfo) {
-        console.log('selectedInfo.isAdmin:' + selectedInfo.isAdmin);
+        // console.log('selectedInfo.isAdmin:' + selectedInfo.isAdmin);
         req.usersInfo.isAdmin = selectedInfo.isAdmin;
         next();
       });

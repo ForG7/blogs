@@ -94,10 +94,17 @@ try{
 JSON.parse({}): 把字符串格式的json转成json;
 
 
+用户信息展示:
+    用户名 密码 id 是否是管理员
 
+每页展示 4 条
 
+user.find().limit(number).skip(number).then();
 
-
+1: 1 - 5   skip: 0
+2: 6 - 10  skip: 5
+3: 11 - 15 skip: 10
+ skip: (page - 1) * limit
 
 
 
