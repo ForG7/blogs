@@ -28,7 +28,7 @@ router.get('/userslist', function (req, res) {
       res.render('admin/admin.ejs', {
         Data: data,
         limit: limit,
-        count: count,//总条数
+        count: count,//数据总条数
         pages: pages,
         page: page
       });
