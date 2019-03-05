@@ -10,10 +10,14 @@ var express = require('express');
 
 var router = express.Router();
 
+var category = require('../models/category');
+
 //localhost:8086/index
 router.get('/index', function (req, res) {
   
-  res.render('main/index.ejs', {usersInfo: req.usersInfo});
+  category.find().then(function (info) {
+    res.render('main/index.ejs', {usersInfo: req.usersInfo, data: info});
+  });
   
 });
 

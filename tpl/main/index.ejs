@@ -15,20 +15,9 @@
 	</header>
 	<nav>
 		<div class="menu">
-	    	<a href="/" class="focus">首页</a>
-	    	
-	    		<a href="javascript:;">HTML5</a>
-	    	
-	    		<a href="javascript:;">CSS</a>
-	    	
-	    		<a href="javascript:;">JAVASCRIPT</a>
-	    	
-	    		<a href="javascript:;">PHP</a>
-	    	
-	    		<a href="javascript:;">JAVA</a>
-	    	
-	    		<a href="javascript:;">Express</a>
-	    	
+	    	<%for(var i = 0; i < data.length; i++){%>
+	    		<a href="javascript:;"><%=data[i].name%></a>
+	    	<%}%>
 	    </div>
 	</nav>
     <main class="clear">

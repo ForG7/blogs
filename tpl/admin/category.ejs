@@ -1,19 +1,100 @@
-<%include header.ejs%>
+<% include header.ejs %>
 <div class="container">
-    <table class="table table-bordered table-hover text-center">
+    <table class="table table-hover text-center">
         <tr>
             <td>分类名称</td>
             <td>分类ID</td>
             <td>操作</td>
         </tr>
+        <% for(var i = 0; i < data.length; i++){ %>
         <tr>
-            <td>HTML 5</td>
-            <td>asdfdsdfgdsf</td>
-            <td>
-                <a href="javascript:;">修改</a> |
-                <a href="javascript:;">删除</a>
+            <td><%= data[i].name %></td>
+            <td><%= data[i]._id %></td>
+            <td class="box">
+                <a type="button" class="btn" data-toggle="modal" data-target="#exampleModal">修改</a>|
+                <a href="javascript:;"> 删除</a>
+                <input type="hidden" value="<%= data[i]._id %>">
+                <input type="hidden" class="oldval" value="<%= data[i].name %>">
             </td>
         </tr>
+        <% } %>
     </table>
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="exampleModalLabel">分类修改</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="recipient-name" class="control-label">新名称: </label>
+                        <input type="text" class="form-control" id="recipient-name">
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="edit">确认修改</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
-<%include footer.ejs%>
+<script>
+  $(function () {
+    var oldVal = '';
+    //删除:
+    $('.box').find('a:nth-child(2)').on('click', function () {
+      var con = window.confirm('确认要删除吗?');
+      if (con) {
+        $.ajax({
+          url: '/admin/category/del',
+          type: 'get',
+          data: {
+            id: $('.box').find('input').val()
+          },
+          success: function (res) {
+            if (!res.code) {
+              alert(res.msg);
+              window.location.reload();
+            }
+            console.log(res);
+          },
+          error: function (error) {
+            console.log(error);
+          }
+        });
+      }
+    });
+
+    //修改:
+
+
+    $('.box').find('a:nth-child(1)').on('click', function () {
+        oldVal = $(this).parent().find('input.oldval').val();
+    });
+
+    $('#recipient-name').on('focus', function () {
+      $(this).val('');
+    })
+
+    $('#edit').on('click', function () {
+
+     if($('#recipient-name').val() === ''){
+       $('#recipient-name').val('名称不能为空!');
+       $('#recipient-name').fadeOut().fadeIn();
+     }else if($('#recipient-name').val() == oldVal){
+       $('#recipient-name').val('修改后的名称不能和修改前的一样!');
+       $('#recipient-name').fadeOut().fadeIn();
+     }else{
+       $('#exampleModal').modal('toggle');
+     }
+
+
+   })
+  });
+</script>
+
+<% include footer.ejs %>

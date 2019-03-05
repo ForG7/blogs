@@ -1,11 +1,46 @@
-<%include header.ejs%>
-    <div class="container">
-        <form>
-            <div class="form-group">
-                <label for="exampleInputEmail1">分类名称: </label>
-                <input type="text" class="form-control" id="exampleInputEmail1" placeholder="请输入分类名称">
-            </div>
-            <button type="submit" class="btn btn-default">Submit</button>
-        </form>
-    </div>
-<%include footer.ejs%>
+<% include header.ejs %>
+<div class="container" id="container">
+    <form>
+        <div class="form-group">
+            <label for="exampleInputEmail1">分类名称: </label>
+            <input type="text" class="form-control" id="txt" placeholder="请输入分类名称"> <br>
+            <p class="bg-success" style="display: none;" id="bg-success">分类添加成功!</p>
+            <p class="bg-danger" style="display: none;" id="bg-danger">分类添加失败!</p>
+        </div>
+        <a class="btn btn-default" id="submit">提交</a>
+    </form>
+</div>
+<script>
+  $(function () {
+    $('#submit').on('click', function () {
+      if ($('#txt').val() === '') {
+        $('#txt').val('分类信息不能为空!').fadeIn().fadeOut().fadeIn().focus(function(){
+          $(this).val('');
+        });
+        $('#container').find('div').addClass('has-error');
+      } else {
+        $('#container').find('div').removeClass('has-error').addClass('has-success');
+        $.ajax({
+          type: 'post',
+          url: '/admin/category_add',
+          data: {
+            name: $('#txt').val()
+          },
+          success: function (res) {
+            if(res.code){
+              $('#txt').val('分类信息添加失败!').fadeIn().fadeOut().fadeIn().focus(function(){
+                $(this).val('');
+              });
+            }else{
+              $('#txt').val('分类信息添加成功!').fadeIn().fadeOut().fadeIn();
+            }
+          },
+          error: function (error) {
+            console.log(error);
+          }
+        });
+      }
+    })
+  })
+</script>
+<% include footer.ejs %>
