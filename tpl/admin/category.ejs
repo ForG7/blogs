@@ -11,9 +11,9 @@
             <td><%= data[i].name %></td>
             <td><%= data[i]._id %></td>
             <td class="box">
-                <a type="button" class="btn" data-toggle="modal" data-target="#exampleModal">修改</a>|
+                <a type="button" class="btn" data-toggle="modal" data-target="#exampleModal" style="padding: 0; border: 0; border-radius: 0;">修改</a> |
                 <a href="javascript:;"> 删除</a>
-                <input type="hidden" value="<%= data[i]._id %>">
+                <input type="hidden" class="idVal" value="<%= data[i]._id %>">
                 <input type="hidden" class="oldval" value="<%= data[i].name %>">
             </td>
         </tr>
@@ -45,15 +45,23 @@
 <script>
   $(function () {
     var oldVal = '';
+    var id = '';
+
+    $('.box').find('a:nth-child(1)').on('click', function () {
+      oldVal = $(this).parent().find('input.oldval').val();//原有的分类名
+      id = $(this).parent().find('input.idVal').val();//原有的id
+    });
+
     //删除:
     $('.box').find('a:nth-child(2)').on('click', function () {
+      id = $(this).parent().find('input.idVal').val();
       var con = window.confirm('确认要删除吗?');
       if (con) {
         $.ajax({
           url: '/admin/category/del',
           type: 'get',
           data: {
-            id: $('.box').find('input').val()
+            id: id
           },
           success: function (res) {
             if (!res.code) {
@@ -70,30 +78,37 @@
     });
 
     //修改:
-
-
-    $('.box').find('a:nth-child(1)').on('click', function () {
-        oldVal = $(this).parent().find('input.oldval').val();
-    });
-
     $('#recipient-name').on('focus', function () {
       $(this).val('');
-    })
-
+    });
     $('#edit').on('click', function () {
-
-     if($('#recipient-name').val() === ''){
-       $('#recipient-name').val('名称不能为空!');
-       $('#recipient-name').fadeOut().fadeIn();
-     }else if($('#recipient-name').val() == oldVal){
-       $('#recipient-name').val('修改后的名称不能和修改前的一样!');
-       $('#recipient-name').fadeOut().fadeIn();
-     }else{
-       $('#exampleModal').modal('toggle');
-     }
-
-
-   })
+      if ($('#recipient-name').val() === '') {
+        $('#recipient-name').val('名称不能为空!');
+        $('#recipient-name').fadeOut().fadeIn();
+      } else if ($('#recipient-name').val() == oldVal) {
+        $('#recipient-name').val('修改后的名称不能和修改前的一样!');
+        $('#recipient-name').fadeOut().fadeIn();
+      } else {
+        $.ajax({
+          url: '/admin/category/edit',
+          data: {
+            id: id,
+            name: $('#recipient-name').val()
+          },
+          type: 'get',
+          success: function (res) {
+            console.log(res.code, res.msg);
+            if(res.code === 7){
+              window.location.reload();
+            }
+          },
+          error: function (error) {
+            console.log('error:' + error);
+          }
+        });
+        $('#exampleModal').modal('toggle');
+      }
+    })
   });
 </script>
 
