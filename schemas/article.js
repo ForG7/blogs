@@ -49,6 +49,12 @@ var article = new Schema({
   category: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'category'
+  },
+  
+  //分类名称:
+  names: {
+    type: String,
+    default: ''
   }
 });
 

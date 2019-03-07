@@ -17,7 +17,7 @@
             <label>所属分类</label>
             <select class="form-control" id="sel">
                 <% for(var i = 0; i < list.length; i++){ %>
-                <option value="<%= list[i]._id %>"><%= list[i].name %></option>
+                <option value="<%= list[i]._id %>" dataName="<%= list[i].name %>"><%= list[i].name %></option>
                 <% } %>
             </select>
         </div>
@@ -35,15 +35,16 @@
     } else {
       $.ajax({
         url: '/admin/article_add',
-        type: 'get',
+        type: 'post',
         data: {
           title: $('#title').val(),
           int: $('#int').val(),
           content: $('#con').val(),
-          sel: $('#sel').val()
+          sel: $('#sel').val(),
+          names: $('#sel').find("option:selected").attr("dataName")
         },
         success: function (res) {
-          console.log(res);
+          window.location.reload();
         }
       })
     }
