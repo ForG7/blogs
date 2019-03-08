@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html>
 <head>
@@ -34,18 +33,16 @@
 	    </div>
 	</nav>
 
-	
-
     <main class="clear">
         <div class="mainLeft">
             
             <div class="listBox">
-                <h1>symfony2</h1>
+                <h1><%=data.title%></h1>
                 <p class="colDefault">
                     作者：<span class="colInfo">admin</span> -
-                    时间：<span class="colInfo">2016年09月28日 01:13:30</span> -
-                    阅读：<span class="colInfo">0</span> -
-                    评论：<span class="colInfo">10</span>
+                    时间：<span class="colInfo"><%=data.pub%></span> -
+                    阅读：<span class="colInfo"><%=data.views%></span> -
+                    评论：<span class="colInfo"><%=data.comments.length%></span>
                 </p>
                 <dfn>
                     内容内容内容
@@ -130,7 +127,6 @@
                     <p><a href="javascript:;" target="_blank" class="colDanger">广州本田</a></p>
                 </div>
             </div>
-
 
     </main>
 
