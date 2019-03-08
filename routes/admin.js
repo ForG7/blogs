@@ -3,7 +3,6 @@
     Mob: 13683088643
     QQ & WeChat: 1812532016
 */
-
 //admin 路由
 var express = require('express');
 
@@ -17,9 +16,9 @@ var article = require('../models/article'); //引入文章表
 
 var json = {};
 
-router.use(function(req, res, next){
+router.use(function (req, res, next) {
   
-  if(!req.usersInfo.isAdmin){
+  if (!req.usersInfo.isAdmin) {
     res.send('404 没有这个页面!');
     res.end();
   }
@@ -139,8 +138,8 @@ router.get('/category/edit', function (req, res) {
 //文章管理:
 router.get('/article', function (req, res) {
   
-  article.find().then(function (info2) {
-    res.render('admin/article.ejs', {info: info2});
+  article.find().then(function (info) {
+    res.render('admin/article.ejs', {data: info});
   });
   
 });
@@ -182,6 +181,33 @@ router.get('/article/del', function (req, res) {
     res.redirect('/admin/article');//重定向;
   });
   
+});
+
+//文章修改:
+router.get('/article/edit', function (req, res) {
+  var id = req.query.id;
+  article.findOne({_id: id}).then(function (data) {
+    category.find().then(function (info) {
+      res.render('admin/edit.ejs', {data: data, arr: info});
+    });
+  })
+});
+
+//文章修改保存:
+router.post('/article/edit', function (req, res) {
+  
+  var id = req.body.id;
+  article.updateOne({
+    _id: id
+  }, {
+    title: req.body.title,
+    int: req.body.int,
+    content: req.body.con,
+    names: req.body.text,
+    category: req.body.sel
+  }).then(function (info) {
+    console.log(info);
+  })
 });
 
 module.exports = router;

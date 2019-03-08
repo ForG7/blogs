@@ -134,14 +134,7 @@ model.find().sort({_id: -1}).then();
 router.use()不管get或者post请求都会走use;
 
 
-/admin: ---> admin.js
-
-
-
-
-
-
-
+category.find().where(id).then();
 
 
 

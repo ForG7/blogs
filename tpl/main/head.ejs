@@ -1,0 +1,22 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>前端首页</title>
+    <link href="public/css/main.css" rel="stylesheet" type="text/css">
+    <link href="public/fontAwesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <script src="public/js/jquery-1.12.4.min.js"></script>
+    <script src="public/js/index.js"></script>
+</head>
+<body>
+<header>
+    <div class="backimg"><img src="public/images/IMG_0293.JPG"></div>
+    <div class="logo"><span></span><img src="public/images/00002637.png"></div>
+</header>
+<nav>
+    <div class="menu">
+        <%for(var i = 0; i < data.length; i++){%>
+        <a href="javascript:;"><%=data[i].name%></a>
+        <%}%>
+    </div>
+</nav>

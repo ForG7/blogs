@@ -10,44 +10,22 @@
             <td>评论数</td>
             <td>操作</td>
         </tr>
-        <%for(var i = info.length - 1; i >= 0 ; i--){%>
-            <tr>
-                <td><%=info[i].title%></td>
-                <td><%=info[i].names%></td>
-                <td><%=info[i]._id%></td>
-                <td><%=info[i].pub%></td>
-                <td><%=info[i].views%></td>
-                <td><%=info[i].comments.length%></td>
-                <td class="box">
-                    <a type="button" class="btn" data-toggle="modal" data-target="#exampleModal" style="padding: 0; border: 0; border-radius: 0;">修改</a> |
-                    <a href="/admin/article/del?id=<%=info[i]._id%>"> 删除</a>
-                    <input type="hidden" class="idVal" value="">
-                    <input type="hidden" class="oldval" value="">
-                </td>
-            </tr>
+        <%for(var i = 0; i < data.length; i++) {%>
+        <tr>
+            <td><%=data[i].title%></td>
+            <td><%=data[i].names%></td>
+            <td><%=data[i]._id%></td>
+            <td><%=data[i].pub%></td>
+            <td><%=data[i].views%></td>
+            <td><%=data[i].comments.length%></td>
+            <td class="box">
+                <a type="button" class="btn" style="padding: 0; border: 0; border-radius: 0;" href="/admin/article/edit?id=<%=data[i]._id%>">修改</a> |
+                <a href="/admin/article/del?id=<%=data[i]._id%>"> 删除</a>
+                <input type="hidden" class="idVal" value="">
+                <input type="hidden" class="oldval" value="">
+            </td>
+        </tr>
         <%}%>
     </table>
-
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
-                                aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="exampleModalLabel">文章修改</h4>
-                </div>
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label for="recipient-name" class="control-label">新名称: </label>
-                        <input type="text" class="form-control" id="recipient-name">
-                    </div>
-
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" id="edit">确认修改</button>
-                </div>
-            </div>
-        </div>
-    </div>
 </div>
 <% include footer.ejs %>

@@ -1,52 +1,15 @@
-<!doctype html>
-<html>
-<head>
-<meta charset="utf-8">
-<title>博客</title>
-<link href="../css/main.css" rel="stylesheet" type="text/css">
-<link href="../fontAwesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-</head>
-
-<body>
-
-	<header>
-		<div class="backimg"><img src="../images/IMG_0293.JPG"></div>
-		<div class="logo"><span></span><img src="../images/00002637.png"></div>
-	</header>
-
-	<nav>
-		<div class="menu">
-	    	<a href="/" class="focus">首页</a>
-	    	
-	    		<a href="javascript:;">HTML5</a>
-	    	
-	    		<a href="javascript:;">CSS</a>
-	    	
-	    		<a href="javascript:;">JAVASCRIPT</a>
-	    	
-	    		<a href="javascript:;">PHP</a>
-	    	
-	    		<a href="javascript:;">JAVA</a>
-	    	
-	    		<a href="javascript:;">Express</a>
-	    	
-	    </div>
-	</nav>
-
+<%include head.ejs%>
     <main class="clear">
         <div class="mainLeft">
-            
             <div class="listBox">
-                <h1><%=data.title%></h1>
+                <h1><%=info.title%></h1>
                 <p class="colDefault">
                     作者：<span class="colInfo">admin</span> -
-                    时间：<span class="colInfo"><%=data.pub%></span> -
-                    阅读：<span class="colInfo"><%=data.views%></span> -
-                    评论：<span class="colInfo"><%=data.comments.length%></span>
+                    时间：<span class="colInfo"><%=info.pub%></span> -
+                    阅读：<span class="colInfo"><%=info.views%></span> -
+                    评论：<span class="colInfo"><%=info.comments.length%></span>
                 </p>
-                <dfn>
-                    内容内容内容
-                </dfn>
+                <dfn><%=info.content%></dfn>
             </div>
 
             <div class="listBox message">
@@ -88,48 +51,6 @@
             </div>
 
         </div>
-
-        <div class="mainRight">
-            
-
-            <div class="rightBox">
-                <div class="title"><span>用户信息</span></div>
-                <p><span class="colDark">admin</span></p>
-                
-                <p><span class="colDanger">你好，你是管理员，<a href="/admin">你可以点击这里进入管理</a></span></p>
-                
-                <p><span class="colDark"><a href="/logout" id="logoutBtn">退出</a></span></p>
-            </div>
-
-            <div class="rightBox" id="loginBox">
-                <div class="title"><span>登录</span></div>
-                <div class="line"><span class="colDark">用户名：</span><input type="text" /><em></em></div>
-                <div class="line"><span class="colDark">密码：</span><input type="password" /><em></em></div>
-                <div class="line"><span class="colDark"></span><button>登 录</button></div>
-                <p class="textRight">还没注册？<a href="#" class="colMint">马上注册</a>　</p>
-                <p class="colWarning textCenter"></p>
-            </div>
-
-            <div class="rightBox" id="registerBox">
-                <div class="title"><span>注册</span></div>
-                <div class="line"><span class="colDark">用户名：</span><input type="text" /></div>
-                <div class="line"><span class="colDark">密码：</span><input type="password" /></div>
-                <div class="line"><span class="colDark">确认：</span><input type="password" /></div>
-                <div class="line"><span class="colDark"></span><button>注 册</button></div>
-                <p class="textRight">已有账号？<a href="#" class="colMint">马上登录</a>　</p>
-                <p class="colWarning textCenter"></p>
-            </div>
-
-
-            <div class="rightBox">
-                <div class="title"><span>社区</span></div>
-                    <p><a href="javascript:;" target="_blank" class="colDanger">广州本田</a></p>
-                    <p><a href="javascript:;" target="_blank" class="colDanger">广州本田</a></p>
-                </div>
-            </div>
-
+        <%include right.ejs%>
     </main>
-
-	<div class="copyright textCenter">Copyright © Honda.com 版权所有 | 京ICP备08332442号</div>
-</body>
-</html>
+<%include foot.ejs%>
