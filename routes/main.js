@@ -33,18 +33,18 @@ router.get('/index', function (req, res) {
   
 });
 
-/*//首页内容分页:
-router.get('/pages', function (req, res, next) {
+router.get('/view', function(req, res){
+  var id = req.query.contentID;
   
-  var page = Number(req.query.page) || 1;//当前在哪一页
-  
-  article.count().then(function (count) {
-    var limit = 5;//一页展示的条数
-    var pages = Math.ceil(count / 5);//总页数;
-    
-    res.render('main/index.ejs', {page: page, pages: pages})
+  article.findOne({
+    _id: id
+  }).then(function(info){
+    console.log(info);
+    info.views++;
+    info.save();
+    res.render('main/view.ejs', {data: info});
   });
-  next();
-});*/
+  
+});
 
 module.exports = router;
