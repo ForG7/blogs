@@ -80,6 +80,41 @@ $(function () {
       }
     })
   });
+  
+  //获取文章分类:
+  $('.menu-zs').on('click', function () {
+    var id = $(this).attr('data');
+    console.log(id);
+    $.ajax({
+      url: '/api/article/select',
+      data: {
+        id: id
+      },
+      beforeSend: function () {
+        $('#loading').show();
+      },
+      success: function (res) {
+        $('#loading').hide();
+        console.log(res.length);
+        $('#mainLeft').html('');
+        for (var i = 0; i < res.length; i++) {
+          var oDiv = $('<div class="listBox"><h1>'+res[i].title+'</h1><p class="colDefault">作者：<span class="colInfo">admin</span>时间：<span class="colInfo">'+res[i].pub+'</span>阅读：<span class="colInfo">'+res[i].views+'</span> 评论：<span class="colInfo">'+res[i].comments.length+'</span></p><dfn><p>'+res[i].int+'</p></dfn><div class="function"><a href="view?id='+res[i]._id+'" target="_blank">阅读全文</a></div></div>');
+          $('#mainLeft').prepend(oDiv);
+        }
+        
+        var page = 1;
+        var limit = 3;
+        var pages = Math.ceil(res.length / limit);
+        
+        $('#pages').html('')
+        
+      },
+      error: function (err) {
+        console.log(err);
+        $('#loading').hide();
+      }
+    })
+  });
 });
 
 

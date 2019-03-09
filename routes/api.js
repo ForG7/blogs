@@ -10,6 +10,8 @@ var router = express.Router();
 
 var UserTable = require('../models/User');//引入User
 
+var article = require('../models/article');//引入article;
+
 var responsetext = {};//
 
 router.use(function (req, res, next) {
@@ -138,6 +140,19 @@ router.get('/user/logout', function (req, res) {
   responsetext.msg = '退出成功!';
   res.send(responsetext);
   res.end();
+});
+
+//文章分类查询:
+router.get('/article/select', function (req, res) {
+  var id = req.query.id;
+  
+  article.find({
+    category: id
+  }).then(function (info) {
+    //[{},{}]
+    res.send(info);
+    res.end();
+  })
 });
 
 module.exports = router;
