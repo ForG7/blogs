@@ -81,39 +81,81 @@ $(function () {
     })
   });
   
+  var id = '';
+  var page = 1;
+  var limit = 2;
   //获取文章分类:
   $('.menu-zs').on('click', function () {
-    var id = $(this).attr('data');
-    console.log(id);
+    id = $(this).attr('data');
     $.ajax({
       url: '/api/article/select',
       data: {
-        id: id
+        id: id,
+        limit: limit
       },
       beforeSend: function () {
         $('#loading').show();
       },
       success: function (res) {
+        
         $('#loading').hide();
-        console.log(res.length);
         $('#mainLeft').html('');
-        for (var i = 0; i < res.length; i++) {
-          var oDiv = $('<div class="listBox"><h1>'+res[i].title+'</h1><p class="colDefault">作者：<span class="colInfo">admin</span>时间：<span class="colInfo">'+res[i].pub+'</span>阅读：<span class="colInfo">'+res[i].views+'</span> 评论：<span class="colInfo">'+res[i].comments.length+'</span></p><dfn><p>'+res[i].int+'</p></dfn><div class="function"><a href="view?id='+res[i]._id+'" target="_blank">阅读全文</a></div></div>');
+        $('#next').html('');
+        $('#prev').html('');
+        $('#global').html();
+        
+        for (var i = 0; i < res.info.length; i++) {
+          var oDiv = $('<div class="listBox"><h1>' + res.info[i].title + '</h1><p class="colDefault">作者：<span class="colInfo">admin</span>时间：<span class="colInfo">' + res.info[i].pub + '</span>阅读：<span class="colInfo">' + res.info[i].views + '</span> 评论：<span class="colInfo">' + res.info[i].comments.length + '</span></p><dfn><p>' + res.info[i].int + '</p></dfn><div class="function"><a href="view?id=' + res.info[i]._id + '" target="_blank">阅读全文</a></div></div>');
           $('#mainLeft').prepend(oDiv);
         }
         
-        var page = 1;
-        var limit = 3;
-        var pages = Math.ceil(res.length / limit);
+        var pages = Math.ceil(res.count / limit);
         
-        $('#pages').html('')
+        if (page === 1) {
+          $('#prev').prepend($('<a href="javascript:;">没有上一页了</a>'));
+        } else {
+          $('#prev').prepend($('<a href="javascript:;" id="prev">上一页</a>'));
+        }
+        
+        $('#global').html(page + ' / ' + pages);
+        
+        if (page === pages) {
+          $('#next').prepend($('<a href="javascript:;">已经是最后一页</a>'));
+        } else {
+          $('#next').prepend($('<a href="javascript:;" id="next">下一页</a>'));
+        }
         
       },
       error: function (err) {
-        console.log(err);
+        
         $('#loading').hide();
       }
     })
+  });
+  
+  //文章分类分页:
+  $('#next').on('click', function () {
+    page++;
+    $.ajax({
+      url: '/api/article/page',
+      data: {
+        id: id,
+        page: page,
+        limit: limit
+      },
+      success: function (res) {
+        $('#mainLeft').html('');
+        for (var i = 0; i < res.info.length; i++) {
+          var oDiv = $('<div class="listBox"><h1>' + res.info[i].title + '</h1><p class="colDefault">作者：<span class="colInfo">admin</span>时间：<span class="colInfo">' + res.info[i].pub + '</span>阅读：<span class="colInfo">' + res.info[i].views + '</span> 评论：<span class="colInfo">' + res.info[i].comments.length + '</span></p><dfn><p>' + res.info[i].int + '</p></dfn><div class="function"><a href="view?id=' + res.info[i]._id + '" target="_blank">阅读全文</a></div></div>');
+          $('#mainLeft').prepend(oDiv);
+        }
+      }
+    });
+  });
+  
+  
+  $('#prev').on('click', function () {
+    alert('prev');
   });
 });
 

@@ -145,14 +145,32 @@ router.get('/user/logout', function (req, res) {
 //文章分类查询:
 router.get('/article/select', function (req, res) {
   var id = req.query.id;
+  var limit = Number(req.query.limit);
+  var page = Number(req.query.page) || 1;
+  var skip = (page - 1) * limit || 0;
+  
+  article.count({category: id}).then(function (count) {
+    article.where({category: id}).limit(limit).skip(skip).then(function (info) {
+      res.send({info: info, count: count});
+      res.end();
+    })
+  });
+});
+
+//文章分页:
+router.get('/article/page', function (req, res) {
+  var page = Number(req.query.page) || 1;
+  var id = req.query.id;
+  var limit = Number(req.query.limit);
+  var skip = (page - 1) * limit;
   
   article.find({
     category: id
-  }).then(function (info) {
-    //[{},{}]
-    res.send(info);
+  }).limit(limit).skip(skip).then(function (info) {
+    res.send({info: info});
     res.end();
   })
+  
 });
 
 module.exports = router;
