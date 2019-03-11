@@ -1,56 +1,100 @@
-<%include head.ejs%>
-    <main class="clear">
-        <div class="mainLeft">
-            <div class="listBox">
-                <h1><%=info.title%></h1>
-                <p class="colDefault">
-                    作者：<span class="colInfo">admin</span> -
-                    时间：<span class="colInfo"><%=info.pub%></span> -
-                    阅读：<span class="colInfo"><%=info.views%></span> -
-                    评论：<span class="colInfo"><%=info.comments.length%></span>
-                </p>
-                <dfn><%=info.content%></dfn>
-            </div>
-
-            <div class="listBox message">
-                <h3 class="textLeft"><strong>评论</strong> <span class="em">一共有 <em id="messageCount">0</em> 条评论</span></h3>
-                
-                <p class="textLeft">zmouse</p>
+<% include head.ejs %>
+<main class="clear">
+    <div class="mainLeft">
+        <div class="listBox">
+            <h1><%= info.title %></h1>
+            <p class="colDefault">
+                作者：<span class="colInfo">admin</span> -
+                时间：<span class="colInfo"><%= info.pub %></span> -
+                阅读：<span class="colInfo"><%= info.views %></span> -
+                评论：<span class="colInfo"><%= info.comments.length %></span>
+            </p>
+            <dfn><%= info.content %></dfn>
+            <input type="hidden" id="conId" value="<%= info._id %>">
+        </div>
+        <div class="listBox message">
+            <h3 class="textLeft"><strong>评论</strong> <span class="em">一共有 <em
+                            id="messageCount"><%= info.comments.length %></em> 条评论</span></h3>
+            <% if(usersInfo.username){ %>
+                <p class="textLeft">你好,<strong id="user"><%= usersInfo.username %></strong>,您可以发表留言!</p>
                 <p class="textLeft clear">
-                    <textarea id="messageContent"></textarea><button id="messageBtn" class="submit">提交</button>
-                </p>
-                
-                <p class="bgDanger" style="line-height: 30px;">你还没有登录，请先登录！</p>
-                
+                    <textarea id="msgCon"></textarea>
 
+                    <button id="msgBtn" class="submit">提交</button>
+                </p>
+            <% } else { %>
+                <p class="bgDanger" style="line-height: 30px;">你还没有登录，请先登录！登陆后可以发表留言!</p>
+            <% } %>
+
+            <%if(info.comments.length <= 0){%>
                 <div class="messageList">
                     <div class="messageBox"><p>还没有留言</p></div>
                 </div>
-
-                <div class="messageList" style="display: block;">
-                    <div class="messageBox">
-                        <p class="name clear"><span class="fl">admin</span><span class="fr">2016年07月29日 17:24:01</span></p><p>哈哈</p>
-                    </div>
-                    <div class="messageBox">
-                        <p class="name clear"><span class="fl">admin</span><span class="fr">2016年07月29日 17:23:34</span></p><p>123123123</p>
-                    </div>
-                </div>
-
-            </div>
-
-            <div class="pager">
-                <ul class="clear">
-                    <li class="previous">
-                        <a href="">上一页</a>
-                    </li>
-                    <li></li>
-                    <li class="next">
-                        <a href="">下一页</a>
-                    </li>
-                </ul>
-            </div>
-
+            <%} else {%>
+                <div class="messageList" id="msglist" style="display: block;"></div>
+            <%}%>
         </div>
-        <%include right.ejs%>
-    </main>
-<%include foot.ejs%>
+
+        <!--<div class="pager">
+            <ul class="clear">
+                <li class="previous">
+                    <a href="">上一页</a>
+                </li>
+                <li></li>
+                <li class="next">
+                    <a href="">下一页</a>
+                </li>
+            </ul>
+        </div>-->
+
+    </div>
+    <% include right.ejs %>
+</main>
+<script>
+  var id = $('#conId').val();
+  $('#msgBtn').on('click', function () {
+    var con = $('#msgCon').val();
+    var user = $('#user').html();
+    $.ajax({
+      url: '/api/msg/post',
+      type: 'post',
+      data: {
+        id: id,
+        con: con,
+        user: user,
+        tt: new Date().getTime()//解决后台的数据无法返回且一直是pending状态.
+      },
+      success: function (res) {
+        $('#msglist').html('');
+        for (var i = 0; i < res.length; i++) {
+          var oDiv = $('<div class="messageBox"><p class="name clear"><span class="fl">' + res[i].user + '</span><span class="fr">' + res[i].times + '</span></p><p>' + res[i].con + '</p></div>');
+          $('#msglist').prepend(oDiv);
+        }
+      },
+      error: function (err) {
+        console.log('error:::' + err);
+      }
+    });
+    $('#msgCon').val('');
+  });
+
+  $.ajax({
+    url: '/api/msg',
+    type: 'get',
+    data: {
+      id: id,
+      tt: new Date().getTime()//解决后台的数据无法返回且一直是pending状态.
+    },
+    success: function (res) {
+      $('#msglist').html('');
+      for (var i = 0; i < res.length; i++) {
+        var oDiv = $('<div class="messageBox"><p class="name clear"><span class="fl">' + res[i].user + '</span><span class="fr">' + res[i].times + '</span></p><p>' + res[i].con + '</p></div>');
+        $('#msglist').prepend(oDiv);
+      }
+    },
+    error: function (err) {
+      console.log('error:::' + err);
+    }
+  });
+</script>
+<% include foot.ejs %>

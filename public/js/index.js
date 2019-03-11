@@ -84,9 +84,35 @@ $(function () {
   var id = '';
   var page = 1;
   var limit = 2;
+  
+  function fn(res) {
+    for (var i = 0; i < res.info.length; i++) {
+      var oDiv = $('<div class="listBox"><h1>' + res.info[i].title + '</h1><p class="colDefault">作者：<span class="colInfo">admin</span>时间：<span class="colInfo">' + res.info[i].pub + '</span>阅读：<span class="colInfo">' + res.info[i].views + '</span> 评论：<span class="colInfo">' + res.info[i].comments.length + '</span></p><dfn><p>' + res.info[i].int + '</p></dfn><div class="function"><a href="view?id=' + res.info[i]._id + '" target="_blank">阅读全文</a></div></div>');
+      $('#mainLeft').prepend(oDiv);
+    }
+    
+    var pages = Math.ceil(res.count / limit);
+    
+    if (page === 1) {
+      console.log(page, page===1);
+      $('#prev').html('').prepend($('<button type="button" class="btn btn-default btn-lg" disabled="disabled">已经是第一页</button>'));
+    } else {
+      $('#prev').html('').prepend($('<a href="javascript:;" id="prev">上一页</a>'));
+    }
+    
+    $('#global').html(page + ' / ' + pages);
+    
+    if (page === pages) {
+      $('#next').html('').prepend($('<button type="button" class="btn btn-default btn-lg" disabled="disabled">已经是最后一页</button>'));
+    } else {
+      $('#next').html('').prepend($('<a href="javascript:;" id="next">下一页</a>'));
+    }
+  }
+  
   //获取文章分类:
   $('.menu-zs').on('click', function () {
     id = $(this).attr('data');
+    page = 1;
     $.ajax({
       url: '/api/article/select',
       data: {
@@ -97,45 +123,22 @@ $(function () {
         $('#loading').show();
       },
       success: function (res) {
-        
         $('#loading').hide();
         $('#mainLeft').html('');
         $('#next').html('');
         $('#prev').html('');
         $('#global').html();
-        
-        for (var i = 0; i < res.info.length; i++) {
-          var oDiv = $('<div class="listBox"><h1>' + res.info[i].title + '</h1><p class="colDefault">作者：<span class="colInfo">admin</span>时间：<span class="colInfo">' + res.info[i].pub + '</span>阅读：<span class="colInfo">' + res.info[i].views + '</span> 评论：<span class="colInfo">' + res.info[i].comments.length + '</span></p><dfn><p>' + res.info[i].int + '</p></dfn><div class="function"><a href="view?id=' + res.info[i]._id + '" target="_blank">阅读全文</a></div></div>');
-          $('#mainLeft').prepend(oDiv);
-        }
-        
-        var pages = Math.ceil(res.count / limit);
-        
-        if (page === 1) {
-          $('#prev').prepend($('<a href="javascript:;">没有上一页了</a>'));
-        } else {
-          $('#prev').prepend($('<a href="javascript:;" id="prev">上一页</a>'));
-        }
-        
-        $('#global').html(page + ' / ' + pages);
-        
-        if (page === pages) {
-          $('#next').prepend($('<a href="javascript:;">已经是最后一页</a>'));
-        } else {
-          $('#next').prepend($('<a href="javascript:;" id="next">下一页</a>'));
-        }
-        
+        fn(res);
       },
       error: function (err) {
-        
         $('#loading').hide();
       }
-    })
+    });
+    
   });
   
   //文章分类分页:
-  $('#next').on('click', function () {
-    page++;
+  function next() {
     $.ajax({
       url: '/api/article/page',
       data: {
@@ -145,18 +148,21 @@ $(function () {
       },
       success: function (res) {
         $('#mainLeft').html('');
-        for (var i = 0; i < res.info.length; i++) {
-          var oDiv = $('<div class="listBox"><h1>' + res.info[i].title + '</h1><p class="colDefault">作者：<span class="colInfo">admin</span>时间：<span class="colInfo">' + res.info[i].pub + '</span>阅读：<span class="colInfo">' + res.info[i].views + '</span> 评论：<span class="colInfo">' + res.info[i].comments.length + '</span></p><dfn><p>' + res.info[i].int + '</p></dfn><div class="function"><a href="view?id=' + res.info[i]._id + '" target="_blank">阅读全文</a></div></div>');
-          $('#mainLeft').prepend(oDiv);
-        }
+        fn(res);
       }
     });
-  });
+  }
   
+  $('#next').on('click', function(){
+    page++;
+    next();
+  });
   
   $('#prev').on('click', function () {
-    alert('prev');
+    page--;
+    next();
   });
+  
 });
 
 

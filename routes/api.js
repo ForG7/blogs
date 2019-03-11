@@ -164,13 +164,42 @@ router.get('/article/page', function (req, res) {
   var limit = Number(req.query.limit);
   var skip = (page - 1) * limit;
   
-  article.find({
-    category: id
-  }).limit(limit).skip(skip).then(function (info) {
-    res.send({info: info});
+  article.count({category: id}).then(function (count) {
+    article.find({category: id}).limit(limit).skip(skip).then(function (info) {
+      res.send({info: info, count: count});
+      res.end();
+    })
+  })
+});
+
+//提交评论：
+router.post('/msg/post', function (req, res, next) {
+  
+  article.findOne({
+    _id: req.body.id
+  }).then(function (info) {
+    info.comments.push({
+      user: req.body.user,
+      con: req.body.con,
+      times: new Date()
+    });
+    return info.save();
+  }).then(function (newInfo) {
+    res.send(newInfo.comments);
+    res.end();
+  });
+});
+
+//获取评论:
+router.get('/msg', function(req, res){
+  console.log(req.query.id);
+  
+  article.findOne({
+    _id: req.query.id
+  }).then(function(info){
+    res.send(info.comments);
     res.end();
   })
-  
 });
 
 module.exports = router;
