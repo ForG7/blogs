@@ -13,6 +13,10 @@ var category = require('../models/category');
 
 var article = require('../models/article');
 
+var moment = require('moment');
+
+var times = '';
+
 //localhost:8086/index
 router.get('/index', function (req, res, next) {
   var page = Number(req.query.page) || 1;
@@ -26,7 +30,8 @@ router.get('/index', function (req, res, next) {
       if (page > pages) page = pages;
       
       article.find().limit(limit).skip(skip).then(function (info2) {
-        res.render('main/index.ejs', {usersInfo: req.usersInfo, data: info, info2: info2, page: page, pages: pages});
+        times = moment(info.pub).format('YYYY-MM-DD hh:mm:ss a');
+        res.render('main/index.ejs', {usersInfo: req.usersInfo, data: info, info2: info2, page: page, pages: pages, pub: times});
       });
     });
   });
@@ -42,7 +47,9 @@ router.get('/view', function (req, res) {
     }).then(function (info) {
       info.views++;
       info.save();
-      res.render('main/view.ejs', {info: info, usersInfo: req.usersInfo, data: info2});
+      times = moment(info.pub).format('YYYY-MM-DD hh:mm:ss a');
+      console.log(times);
+      res.render('main/view.ejs', {info: info, usersInfo: req.usersInfo, data: info2, pub: times});
     });
   });
 });

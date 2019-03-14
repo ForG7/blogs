@@ -133,16 +133,77 @@ model.find().sort({_id: -1}).then();
 
 router.use()不管get或者post请求都会走use;
 
-
 category.find().where(id).then();
 
+---------------------------------------------------------------------
+前端展示功能划分：
+    登录:
+        前端不做校验, 校验后台做的;
 
+    注册：
+        前端不做校验, 后台做;
 
+    留言:
+        游客模式不允许留言, 只可以查看留言.
+        留言条数过多, 需要分页展示. 最新的留言需要在最上面.
 
+    分类:
+        点击分类跳转到对应页面。
+        分类下文章过多, 需要分页展示.
+        最新发表的文章需要在最上面展示.
 
+API:
+    Router.get('/index', index);//针对用户的访问;
+    Router.get('/admin', admin);//针对管理员的后台访问;
+    Router.get('/api', api);//前端和后台的逻辑交互;
 
+后台功能划分:
+    数据库: MongoDB
+    操作数据库: mongoose.js操作数据库;
+    数据库操作: 增删改查(CRUD)
+    mongoose文档地址:
+       EN: https://mongoosejs.com/docs/models.html
+       CN: https://mongoose.shujuwajue.com/guide/schemas.html
 
+    模板:
+        ejs, swig, templates.js, mustache.js
 
+    登录:
+        用户名和密码不能为空, 带着数据到数据库中的对应的表中进行查询;
+        表: users.
 
+    注册:
+        用户名, 密码, 重复密码, 带着数据到数据库中对应的表中进行查询, 查询是否有相同的用户名存在,并且返回对应的数据给前端.
+        users: {
+            username: String,
+            password: String,
+            mob: Number,
+            times: Date(),
+            sex: 'men',
+            Add: String,
+            isAdmin: { 管理员需要手动添加;
+                default: 'false',
+                type: Boolean
+            }
+        }
 
+    分类:
+        分类添加/删除/修改/查询
+        category:{
+            name: String,
+        }
 
+    文章列表：
+        增/删/改/查
+        article:{
+            title: String,
+            int:m String,
+            con: String,
+            times: Date(),
+            views: Number,
+            comments:{
+                type: Array,
+                default: []
+            },
+            category: _id;
+        }

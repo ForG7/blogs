@@ -14,6 +14,8 @@
     "ejs": "^2.6.1",
     "express": "^4.16.4",
     "express-static": "^1.2.6",
+    "markdown-it": "^8.4.2",
+    "moment": "^2.24.0",
     "mongoose": "^5.4.16",
     "swig": "^1.4.2"
   }

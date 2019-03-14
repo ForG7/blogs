@@ -5,11 +5,11 @@
             <h1><%= info.title %></h1>
             <p class="colDefault">
                 作者：<span class="colInfo">admin</span> -
-                时间：<span class="colInfo"><%= info.pub %></span> -
+                时间：<span class="colInfo"><%= pub %></span> -
                 阅读：<span class="colInfo"><%= info.views %></span> -
                 评论：<span class="colInfo"><%= info.comments.length %></span>
             </p>
-            <dfn><%= info.content %></dfn>
+            <dfn><%- info.content %></dfn>
             <input type="hidden" id="conId" value="<%= info._id %>">
         </div>
         <div class="listBox message">
